@@ -1,14 +1,64 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import type { OptimizationRecommendation } from '../types';
 import { CloudIcon } from './icons/CloudIcon';
 import { AlertIcon } from './icons/AlertIcon';
+import { KeyIcon } from './icons/KeyIcon';
 
 interface OptimizationReportProps {
   recommendations: OptimizationRecommendation[];
   isLoading: boolean;
   error: string | null;
+  apiKey: string;
+  onApiKeyChange: (key: string) => void;
 }
+
+const ApiKeyPrompt: React.FC<{ onApiKeyChange: (key: string) => void }> = ({ onApiKeyChange }) => {
+  const [localApiKey, setLocalApiKey] = useState('');
+
+  const handleSave = () => {
+    if (localApiKey.trim()) {
+      onApiKeyChange(localApiKey.trim());
+    }
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleSave();
+    }
+  };
+
+  return (
+    <div className="flex flex-col items-center justify-center h-full text-gray-400">
+      <KeyIcon className="w-16 h-16 mb-4" />
+      <h3 className="text-xl font-semibold text-white mb-2">API Key Required</h3>
+      <p className="text-center text-sm mb-4 max-w-md">
+        Please enter your Google AI API key to begin. You can create a key in Google AI Studio.
+      </p>
+      <div className="w-full max-w-sm flex gap-2">
+        <input
+          type="password"
+          value={localApiKey}
+          onChange={(e) => setLocalApiKey(e.target.value)}
+          onKeyDown={handleKeyDown}
+          placeholder="Enter your API Key..."
+          className="flex-grow w-full p-2 bg-gray-800 border border-gray-600 rounded-md text-gray-300 focus:ring-2 focus:ring-cyan-500 focus:outline-none"
+        />
+        <button
+          onClick={handleSave}
+          disabled={!localApiKey.trim()}
+          className="bg-cyan-600 hover:bg-cyan-500 disabled:bg-gray-600 text-white font-bold py-2 px-4 rounded-md transition-colors"
+        >
+          Save
+        </button>
+      </div>
+       <p className="text-xs text-gray-500 mt-3">
+        Your API key is stored locally in your browser.
+      </p>
+    </div>
+  );
+};
+
 
 const RecommendationCard: React.FC<{ item: OptimizationRecommendation }> = ({ item }) => {
   const getConfidenceColor = (confidence: 'HIGH' | 'MEDIUM' | 'LOW') => {
@@ -44,8 +94,12 @@ const RecommendationCard: React.FC<{ item: OptimizationRecommendation }> = ({ it
   );
 };
 
-export const OptimizationReport: React.FC<OptimizationReportProps> = ({ recommendations, isLoading, error }) => {
+export const OptimizationReport: React.FC<OptimizationReportProps> = ({ recommendations, isLoading, error, apiKey, onApiKeyChange }) => {
   const renderContent = () => {
+    if (!apiKey) {
+      return <ApiKeyPrompt onApiKeyChange={onApiKeyChange} />;
+    }
+    
     if (isLoading) {
       return (
         <div className="flex flex-col items-center justify-center h-full text-gray-500">

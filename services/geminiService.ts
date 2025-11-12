@@ -1,3 +1,4 @@
+
 import { GoogleGenAI, Type } from "@google/genai";
 import type { OptimizationRecommendation, CloudResource } from '../types';
 
@@ -29,9 +30,12 @@ const recommendationSchema = {
   required: ['resourceId', 'issue', 'recommendation', 'estimatedMonthlySavings', 'confidence'],
 };
 
-export async function analyzeResources(resources: CloudResource[]): Promise<OptimizationRecommendation[]> {
-  // Initialize the GoogleGenAI client here to ensure it uses the provided API key from the environment.
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+export async function analyzeResources(resources: CloudResource[], apiKey: string): Promise<OptimizationRecommendation[]> {
+  if (!apiKey) {
+    throw new Error("API Key must be provided to analyze resources.");
+  }
+  
+  const ai = new GoogleGenAI({ apiKey });
   
   const prompt = `
     Analyze the following JSON array of cloud resources. Identify opportunities for cost savings and provide actionable recommendations.
@@ -66,6 +70,9 @@ export async function analyzeResources(resources: CloudResource[]): Promise<Opti
     return recommendations;
   } catch (error) {
     console.error("Error analyzing resources with Gemini API:", error);
-    throw new Error("Failed to get optimization recommendations from the AI. The model may be unable to process the request.");
+    if (error instanceof Error && (error.message.includes('API key not valid') || error.message.includes('API_KEY_INVALID'))) {
+       throw new Error("The provided API Key is not valid. Please check your key and try again.");
+    }
+    throw new Error("Failed to get optimization recommendations from the AI. This could be due to an invalid API key or a network issue.");
   }
 }

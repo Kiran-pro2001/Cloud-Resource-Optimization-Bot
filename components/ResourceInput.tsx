@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 interface ResourceInputProps {
   onAnalyze: (jsonData: string) => void;
   isLoading: boolean;
+  apiKey: string;
 }
 
 const sampleData = [
@@ -41,7 +42,7 @@ const sampleData = [
   }
 ];
 
-export const ResourceInput: React.FC<ResourceInputProps> = ({ onAnalyze, isLoading }) => {
+export const ResourceInput: React.FC<ResourceInputProps> = ({ onAnalyze, isLoading, apiKey }) => {
   const [jsonData, setJsonData] = useState<string>(JSON.stringify(sampleData, null, 2));
 
   const handleAnalyzeClick = () => {
@@ -72,8 +73,9 @@ export const ResourceInput: React.FC<ResourceInputProps> = ({ onAnalyze, isLoadi
       />
       <button
         onClick={handleAnalyzeClick}
-        disabled={isLoading || !jsonData.trim()}
+        disabled={isLoading || !jsonData.trim() || !apiKey}
         className="mt-4 w-full bg-cyan-600 hover:bg-cyan-500 disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-md transition-all duration-300 flex items-center justify-center shadow-md hover:shadow-lg disabled:shadow-none"
+        title={!apiKey ? "Please set your API Key in the Optimization Report panel" : ""}
       >
         {isLoading ? (
           <>
