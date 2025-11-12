@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import type { OptimizationRecommendation } from '../types';
 import { CloudIcon } from './icons/CloudIcon';
@@ -126,8 +125,8 @@ export const OptimizationReport: React.FC<OptimizationReportProps> = ({ recommen
       return (
         <div className="flex flex-col items-center justify-center h-full text-gray-500">
           <CloudIcon className="w-16 h-16 mb-4" />
-          <h3 className="text-xl font-semibold">Ready for Analysis</h3>
-          <p className="text-center mt-2">Your optimization report will appear here once the analysis is complete.</p>
+          <h3 className="text-xl font-semibold">Ready for OCI Analysis</h3>
+          <p className="text-center mt-2">Your Oracle Cloud Infrastructure optimization report will appear here once the analysis is complete.</p>
         </div>
       );
     }

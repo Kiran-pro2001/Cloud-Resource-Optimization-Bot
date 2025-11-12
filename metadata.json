@@ -1,5 +1,5 @@
 {
   "name": "Copy of Cloud Resource Optimization Bot",
-  "description": "An AI-powered bot that monitors cloud resource usage, identifies waste, and recommends actions to optimize costs and performance. Ideal for cloud engineers and finance departments to reduce cloud spending.",
+  "description": "An AI-powered bot that studies usage patterns in Oracle Cloud (OCI) and suggests the best plan — like resizing, pausing idle machines, or switching to cheaper options to cut cloud bills by 20-40%.",
   "requestFramePermissions": []
 }

@@ -1,4 +1,3 @@
-
 import { GoogleGenAI, Type } from "@google/genai";
 import type { OptimizationRecommendation, CloudResource } from '../types';
 
@@ -38,11 +37,17 @@ export async function analyzeResources(resources: CloudResource[], apiKey: strin
   const ai = new GoogleGenAI({ apiKey });
   
   const prompt = `
-    Analyze the following JSON array of cloud resources. Identify opportunities for cost savings and provide actionable recommendations.
-    Focus on:
-    1.  Idle Resources: High idleHoursPerDay.
-    2.  Over-provisioned Resources: Low cpuUsagePercent or memoryUsagePercent. Suggest downsizing.
-    3.  Wrong Service Tiers: Consider if a different storage class or database type would be cheaper for the given usage.
+    You are an expert Oracle Cloud Infrastructure (OCI) Cost Optimization Bot.
+    Analyze the following JSON array of OCI resources. Your goal is to identify significant cost-saving opportunities and provide actionable recommendations, just like a smart electricity meter would suggest ways to save on a bill.
+
+    Focus on these key optimization strategies for OCI:
+    1.  **Rightsizing Instances & Databases:** Identify over-provisioned Compute Instances and Database Systems based on low 'cpuUsagePercent' and 'memoryUsagePercent'. Recommend downsizing to a more appropriate OCI shape (e.g., from 'VM.Standard2.4' to 'VM.Standard.E4.Flex' with fewer OCPUs, or a smaller fixed shape).
+    2.  **Pausing Idle Resources:** Pinpoint resources with high 'idleHoursPerDay'. For compute instances, recommend implementing stop/start schedules. For databases, suggest manual stop/start procedures during non-business hours to save money.
+    3.  **Switching to Cheaper Options:**
+        - For Compute, suggest switching to Burstable or ARM-based (Ampere) shapes if the workload is suitable.
+        - For Object Storage, if usage patterns are available, recommend moving data to cheaper storage tiers (e.g., Infrequent Access, Archive).
+    
+    For each recommendation, provide the resource ID (ocid), a clear description of the issue, a specific and actionable recommendation, an estimated monthly savings in USD, and your confidence level. The goal is to cut cloud bills by 20-40%.
 
     Resource Data:
     ${JSON.stringify(resources, null, 2)}

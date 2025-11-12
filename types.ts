@@ -1,9 +1,8 @@
-
 export interface CloudResource {
   id: string;
-  type: 'VM' | 'DATABASE' | 'STORAGE_BUCKET' | 'LOAD_BALANCER';
+  type: 'COMPUTE_INSTANCE' | 'DATABASE_SYSTEM' | 'OBJECT_STORAGE_BUCKET' | 'LOAD_BALANCER';
   region: string;
-  size?: string; // e.g., 't2.micro', 'db.r5.large'
+  size?: string; // For OCI: Shape e.g., 'VM.Standard.E4.Flex', 'BM.DenseIO2.52'
   cpuUsagePercent?: number; // Average over last 30 days
   memoryUsagePercent?: number; // Average over last 30 days
   networkTrafficGB?: number; // Per month

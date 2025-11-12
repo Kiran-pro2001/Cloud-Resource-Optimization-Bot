@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 
 interface ResourceInputProps {
@@ -9,36 +8,36 @@ interface ResourceInputProps {
 
 const sampleData = [
   {
-    "id": "prod-web-server-01",
-    "type": "VM",
-    "region": "us-east-1",
-    "size": "m5.2xlarge",
-    "cpuUsagePercent": 15,
-    "memoryUsagePercent": 25,
-    "idleHoursPerDay": 0
+    "id": "ocid1.instance.oc1.phx.xxxxxxxxxxxx",
+    "type": "COMPUTE_INSTANCE",
+    "region": "us-phoenix-1",
+    "size": "VM.Standard.E4.Flex",
+    "cpuUsagePercent": 10,
+    "memoryUsagePercent": 20,
+    "idleHoursPerDay": 8
   },
   {
-    "id": "staging-db-instance",
-    "type": "DATABASE",
-    "region": "us-west-2",
-    "size": "db.r5.large",
+    "id": "ocid1.dbsystem.oc1.iad.yyyyyyyyyyyy",
+    "type": "DATABASE_SYSTEM",
+    "region": "us-ashburn-1",
+    "size": "VM.Standard2.2",
     "cpuUsagePercent": 5,
-    "memoryUsagePercent": 10,
-    "idleHoursPerDay": 16
+    "memoryUsagePercent": 15,
+    "idleHoursPerDay": 18
   },
   {
-    "id": "dev-vm-for-testing",
-    "type": "VM",
-    "region": "eu-central-1",
-    "size": "t3.medium",
+    "id": "ocid1.instance.oc1.lhr.zzzzzzzzzzzz",
+    "type": "COMPUTE_INSTANCE",
+    "region": "uk-london-1",
+    "size": "VM.Standard2.4",
     "cpuUsagePercent": 2,
-    "memoryUsagePercent": 5,
-    "idleHoursPerDay": 22
+    "memoryUsagePercent": 10,
+    "idleHoursPerDay": 23
   },
   {
-    "id": "backup-storage-main",
-    "type": "STORAGE_BUCKET",
-    "region": "us-east-1"
+    "id": "ocid1.bucket.oc1.phx.aaaaaaaaaaaa",
+    "type": "OBJECT_STORAGE_BUCKET",
+    "region": "us-phoenix-1"
   }
 ];
 
