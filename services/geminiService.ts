@@ -1,14 +1,5 @@
-
 import { GoogleGenAI, Type } from "@google/genai";
 import type { OptimizationRecommendation, CloudResource } from '../types';
-
-const API_KEY = process.env.API_KEY;
-
-if (!API_KEY) {
-  throw new Error("API_KEY environment variable is not set");
-}
-
-const ai = new GoogleGenAI({ apiKey: API_KEY });
 
 const recommendationSchema = {
   type: Type.OBJECT,
@@ -39,6 +30,9 @@ const recommendationSchema = {
 };
 
 export async function analyzeResources(resources: CloudResource[]): Promise<OptimizationRecommendation[]> {
+  // Initialize the GoogleGenAI client here to ensure it uses the provided API key from the environment.
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  
   const prompt = `
     Analyze the following JSON array of cloud resources. Identify opportunities for cost savings and provide actionable recommendations.
     Focus on:
